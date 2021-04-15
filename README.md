@@ -10,11 +10,15 @@ For more information about Lex & Yacc, visit the web official below<br>
 
 <h1> How to Use </h1>
 
-```
-cd path/tekkom-new-language-programming
-yacc -d kalkulator.y
-lex kalkulator.l
-gcc lex.yy.c kalkulator.tab.c -o output.exe
-./output.exe
-```
+
+> cd path/tekkom-new-language-programming
+
+> yacc -d kalkulator.y
+
+> lex kalkulator.l
+
+> gcc lex.yy.c kalkulator.tab.c -o output.exe
+
+> ./output.exe
+
 
