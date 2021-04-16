@@ -3,7 +3,7 @@
     void yyerror(char *);
     int yylex(void);    /* main entry for lex */
 
-    int sym[26];    /* hanya dapat menyimpan single-character nama variable */
+    int sym[26];    /* hanya dapat menyimpan single-character nama dari variable */
 %}
 
 %token INTEGER VARIABLE
