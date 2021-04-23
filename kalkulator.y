@@ -4,11 +4,7 @@
     void yyerror(char *);
     int yylex(void);    /* main entry for lex */
 
-<<<<<<< HEAD
     int sym[52];
-=======
-    int sym[26];    /* hanya dapat menyimpan single-character nama dari variable */
->>>>>>> 5f77a07bb819b791711140513c7fe365081d6726
 %}
 
 %token INTEGER VARIABLE
