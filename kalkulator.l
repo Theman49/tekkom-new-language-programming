@@ -3,13 +3,18 @@
 	/* import library yang dibutuhkan  */
     #include "kalkulator.tab.h"		/* dihasilkan setelah men-compile kalkulator.y  */
     #include <stdlib.h>			/* standard library C */
+    #include <stdio.h>
     void yyerror(char *);		/* fungsi untuk menampilkan warning ketika terjadi error  */
 %}
 
 %%
+	/* cetak */
+"cetak"		{ return cetak;  }
+	/* keluar  */
+"keluar"	{ return perintah_keluar; }
 	/* variables */
-[a-z]       {
-                yylval = *yytext - 'a';
+[a-zA-Z]+       {
+                yylval = *yytext;
                 return VARIABLE;
                 }
 
@@ -20,7 +25,7 @@
             }
 
 	/* operators  */
-[-+()=/*\n]     { return *yytext; }
+[-+()=/*^\n]     { return *yytext; }
 
 	/* skip whitespace  */
 [ \t]   ;       /* skip whitespace */
