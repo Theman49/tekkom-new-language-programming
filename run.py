@@ -1,7 +1,7 @@
 import basic
 
 while True:
-	text = input('kelompok 8 >> ')
+	text = input('Kelompok 8 >> ')
 	if text.strip() == "": continue
 	result, error = basic.run('<stdin>', text)
 
