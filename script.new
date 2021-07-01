@@ -9,3 +9,22 @@ print(c)
 untuk i=1 sampai 5 maka
     print(i)
 selesai
+
+jika c < 500 maka
+    print("c kurang dari 500")
+lain_jika c > 500 maka
+    print("c lebih dari 500")
+lain
+    print("c bernilai 500")
+selesai
+
+var c = 2
+sementara c < 5 maka
+    print(c)
+    var c = c + 2
+selesai
+
+
+fungsi tambah(a,b)
+    kembalikan a+b
+selesai

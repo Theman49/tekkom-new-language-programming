@@ -136,7 +136,7 @@ KEYWORDS = [
   'langkah', # STEP
   'fungsi', #FUN
   'maka', # THEN
-  'akhiri', # END
+  'selesai', # END
   'kembalikan', # RETURN
   'lanjut', # CONTINUE
   'berhenti', # BREAK
@@ -1620,18 +1620,18 @@ class BaseFunction(Value):
 
     return hasil.success(None)
 
-  def populate_args(self, nama_argumens, args, exec_ctx):
+  def populate_args(self, arg_names, args, exec_ctx):
     for i in range(len(args)):
-      nama_argumen = nama_argumens[i]
+      nama_argumen = arg_names[i]
       nilai_argumen = args[i]
       nilai_argumen.set_isi(exec_ctx)
       exec_ctx.symbol_table.set(nama_argumen, nilai_argumen)
 
-  def check_and_populate_args(self, nama_argumens, args, exec_ctx):
+  def check_and_populate_args(self, arg_names, args, exec_ctx):
     hasil = RTResult()
-    hasil.register(self.cek_argumens(nama_argumens, args))
+    hasil.register(self.cek_argumens(arg_names, args))
     if hasil.should_return(): return hasil
-    self.populate_args(nama_argumens, args, exec_ctx)
+    self.populate_args(arg_names, args, exec_ctx)
     return hasil.success(None)
 
 class Function(BaseFunction):
@@ -1650,9 +1650,9 @@ class Function(BaseFunction):
     if hasil.should_return(): return hasil
 
     value = hasil.register(interpreter.visit(self.body_node, exec_ctx))
-    if hasil.should_return() and hasil.func_return_value == None: return hasil
+    if hasil.should_return() and hasil.fungsi_mengembalikan_nilai == None: return hasil
 
-    ret_value = (value if self.should_auto_return else None) or hasil.func_return_value or Number.null
+    ret_value = (value if self.should_auto_return else None) or hasil.fungsi_mengembalikan_nilai or Number.null
     return hasil.success(ret_value)
 
   def copy(self):
@@ -1746,7 +1746,7 @@ class BuiltInFunction(BaseFunction):
     return RTResult().success(Number.true if apakah_fungsi else Number.false)
   menjalankan_apakah_fungsi.arg_names = ["value"]
 
-  def menjalankan_append(self, exec_ctx):
+  def menjalankan_tambahkan_ke(self, exec_ctx):
     list_ = exec_ctx.symbol_table.get("list")
     value = exec_ctx.symbol_table.get("value")
 
@@ -1759,9 +1759,9 @@ class BuiltInFunction(BaseFunction):
 
     list_.elements.append(value)
     return RTResult().success(Number.null)
-  menjalankan_append.arg_names = ["list", "value"]
+  menjalankan_tambahkan_ke.arg_names = ["list", "value"]
 
-  def menjalankan_pop(self, exec_ctx):
+  def menjalankan_keluarkan_dari(self, exec_ctx):
     list_ = exec_ctx.symbol_table.get("list")
     index = exec_ctx.symbol_table.get("index")
 
@@ -1788,9 +1788,9 @@ class BuiltInFunction(BaseFunction):
         exec_ctx
       ))
     return RTResult().success(element)
-  menjalankan_pop.arg_names = ["list", "index"]
+  menjalankan_keluarkan_dari.arg_names = ["list", "index"]
 
-  def menjalankan_extend(self, exec_ctx):
+  def menjalankan_gabungkan(self, exec_ctx):
     listA = exec_ctx.symbol_table.get("listA")
     listB = exec_ctx.symbol_table.get("listB")
 
@@ -1810,7 +1810,7 @@ class BuiltInFunction(BaseFunction):
 
     listA.elements.extend(listB.elements)
     return RTResult().success(Number.null)
-  menjalankan_extend.arg_names = ["listA", "listB"]
+  menjalankan_gabungkan.arg_names = ["listA", "listB"]
 
   def menjalankan_len(self, exec_ctx):
     list_ = exec_ctx.symbol_table.get("list")
@@ -1869,9 +1869,9 @@ BuiltInFunction.apakah_angka   = BuiltInFunction("apakah_angka")
 BuiltInFunction.apakah_string   = BuiltInFunction("apakah_string")
 BuiltInFunction.apakah_list     = BuiltInFunction("apakah_list")
 BuiltInFunction.apakah_fungsi = BuiltInFunction("apakah_fungsi")
-BuiltInFunction.append      = BuiltInFunction("append")
-BuiltInFunction.pop         = BuiltInFunction("pop")
-BuiltInFunction.extend      = BuiltInFunction("extend")
+BuiltInFunction.tambahkan_ke      = BuiltInFunction("tambahkan_ke")
+BuiltInFunction.keluarkan_dari         = BuiltInFunction("keluarkan_dari")
+BuiltInFunction.gabungkan      = BuiltInFunction("gabungkan")
 BuiltInFunction.len					= BuiltInFunction("len")
 BuiltInFunction.run					= BuiltInFunction("run")
 
@@ -2166,9 +2166,9 @@ class Interpreter:
 #######################################
 
 global_symbol_table = SymbolTable()
-global_symbol_table.set("NULL", Number.null)
-global_symbol_table.set("FALSE", Number.false)
-global_symbol_table.set("TRUE", Number.true)
+global_symbol_table.set("null", Number.null)
+global_symbol_table.set("false", Number.false)
+global_symbol_table.set("true", Number.true)
 global_symbol_table.set("nilai_phi", Number.math_PI)
 global_symbol_table.set("print", BuiltInFunction.print)
 global_symbol_table.set("print_ret", BuiltInFunction.print_ret)
@@ -2180,9 +2180,9 @@ global_symbol_table.set("apakah_angka", BuiltInFunction.apakah_angka)
 global_symbol_table.set("apakah_string", BuiltInFunction.apakah_string)
 global_symbol_table.set("apakah_list", BuiltInFunction.apakah_list)
 global_symbol_table.set("apakah_fungsi", BuiltInFunction.apakah_fungsi)
-global_symbol_table.set("append", BuiltInFunction.append)
-global_symbol_table.set("pop", BuiltInFunction.pop)
-global_symbol_table.set("extend", BuiltInFunction.extend)
+global_symbol_table.set("tambahkan_ke", BuiltInFunction.tambahkan_ke)
+global_symbol_table.set("keluarkan_dari", BuiltInFunction.keluarkan_dari)
+global_symbol_table.set("gabungkan", BuiltInFunction.gabungkan)
 global_symbol_table.set("len", BuiltInFunction.len)
 global_symbol_table.set("run", BuiltInFunction.run)
 
