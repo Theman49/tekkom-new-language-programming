@@ -3,12 +3,12 @@ import basic
 while True:
 	text = input('Kelompok 8 >> ')
 	if text.strip() == "": continue
-	result, error = basic.run('<stdin>', text)
+	hasil, error = basic.run('<stdin>', text)
 
 	if error:
 		print(error.as_string())
-	elif result:
-		if len(result.elements) == 1:
-			print(repr(result.elements[0]))
+	elif hasil:
+		if len(hasil.elements) == 1:
+			print(repr(hasil.elements[0]))
 		else:
-			print(repr(result))
+			print(repr(hasil))
