@@ -1717,7 +1717,7 @@ class BuiltInFunction(BaseFunction):
         angka = int(text)
         break
       except ValueError:
-        print(f"'{text}' must be an integer. Try again!")
+        print(f"'{text}' harus bilangan integer. Coba Lagi!")
     return RTResult().success(Number(angka))
   menjalankan_input_int.arg_names = []
 
