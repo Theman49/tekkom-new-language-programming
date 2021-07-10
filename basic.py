@@ -1497,10 +1497,6 @@ Number.true = Number(1)
 Number.math_PI = Number(math.pi)
 
 
-#########################################
-##  BARU SAMPAI DISINI                ###
-#########################################
-
 class String(Value):
   def __init__(self, value):
     super().__init__()
@@ -1607,14 +1603,14 @@ class BaseFunction(Value):
     if len(args) > len(arg_names):
       return hasil.failure(RTError(
         self.pos_mulai, self.pos_akhir,
-        f"{len(args) - len(arg_names)} too many args passed into {self}",
+        f"kelebihan {len(args) - len(arg_names)} argumen pada {self.name}()",
         self.isi
       ))
     
     if len(args) < len(arg_names):
       return hasil.failure(RTError(
         self.pos_mulai, self.pos_akhir,
-        f"{len(arg_names) - len(args)} too few args passed into {self}",
+        f"kurang {len(arg_names) - len(args)} argumen pada {self.name}()",
         self.isi
       ))
 

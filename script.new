@@ -24,7 +24,3 @@ sementara c < 5 maka
     var c = c + 2
 selesai
 
-
-fungsi tambah(a,b)
-    kembalikan a+b
-selesai
